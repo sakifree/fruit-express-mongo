@@ -24,6 +24,7 @@ router.post("/signup", async (req, res) => {
     req.body.password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(10))
     // create the new user
     User.create(req.body, (err, user) => {
+        // redirect to login page
         res.redirect("/user/login")
     })
 })
