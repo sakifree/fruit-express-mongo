@@ -21,7 +21,9 @@ router.get("/signup", (req, res) => {
 
 router.post("/signup", async (req, res) => {
     // encrypt password
-    req.body.password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(10))
+    req.body.password = await bcrypt.hash(
+        req.body.password,
+        await bcrypt.genSalt(10))
     // create the new user
     User.create(req.body, (err, user) => {
         // redirect to login page
@@ -47,11 +49,20 @@ router.post("/login", (req, res) => {
             // check if password matches
             const result = bcrypt.compareSync(password, user.password)
             if (result) {
+                req.session.username = username
+                req.session.loggedIn = true
                 res.redirect("/fruits")
             } else {
                 res.send("wrong password")
             }
         }
+    })
+})
+
+router.get("/logout", (req, res) => {
+    // destroy session and redirect to main page
+    req.session.destroy((err) => {
+        res.redirect("/")
     })
 })
 

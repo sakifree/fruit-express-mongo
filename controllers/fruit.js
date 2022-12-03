@@ -1,10 +1,13 @@
+//////////////////////////////////////////////
+// Import Dependencies
+//////////////////////////////////////////////
 const express = require('express') // bring this in so we can make our router
 const Fruit = require('../models/fruit')
 
 
-/////
+//////////////////////////////////////////////
 // Create Router  variable to attach rooutes
-/////
+//////////////////////////////////////////////
 
 const router = express.Router() // router will have all routes attached to it
 
@@ -14,10 +17,12 @@ const router = express.Router() // router will have all routes attached to it
 ///////////////////////////////////////////////
 
 
-router.get('/seed', (req, res) => {
-
-    
-
+router.use((req, res, next) => {
+    if (req.session.loggedIn) {
+        next()
+    } else {
+        res.redirect("/user/login")
+    }
 })
 
 router.get('/', (req, res) => {
