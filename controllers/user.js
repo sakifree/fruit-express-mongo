@@ -35,7 +35,24 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login", (req, res) => {
-    res.send("login")
+    // get the data from the request body
+    const { username, password } = req.body
+    // can also input req.body.username where we see username
+    // also can input req.body.password
+    User.findOne({ username }, (err, user) => {
+        // checking if user exists
+        if (!user) {
+            res.send("user doesn't exist")
+        } else {
+            // check if password matches
+            const result = bcrypt.compareSync(password, user.password)
+            if (result) {
+                res.redirect("/fruits")
+            } else {
+                res.send("wrong password")
+            }
+        }
+    })
 })
 
 //////////////////////////////////////////////
