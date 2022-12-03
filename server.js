@@ -11,7 +11,7 @@ const app = express()
 //////// Middlewares
 ///////////////////////////////////////////////
 
-app.use(morgan('tiny'))
+app.use(morgan('dev'))
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
@@ -21,4 +21,4 @@ app.use(express.static('public'))
 // app.get('/user', userRoutes)
 app.use('/fruits', FruitRouter)
 
-app.listen(PORT, ()=> console.log(`Who let the dogs out on port: ${PORT}`))
+app.listen(PORT, () => console.log(`Who let the dogs out on port: ${PORT}`))
